@@ -1,4 +1,0 @@
-Snippets Module 2 - ASP.NET Core 6 Fundamentals
------------------------------------------------
-
-No snippets
