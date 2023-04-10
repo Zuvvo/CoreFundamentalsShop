@@ -2,8 +2,17 @@ using BethanysPieShop.Models;
 using CoreFundamentalsShop.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("CoreFundamentalsShopDbContextConnection") ?? throw new InvalidOperationException("Connection string 'CoreFundamentalsShopDbContextConnection' not found.");
+
+builder.Services.AddDbContext<CoreFundamentalsShopDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration["ConnectionStrings:CoreFundamentalsShopDbContextConnection"]);
+});
+
+builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<CoreFundamentalsShopDbContext>();
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IPieRepository, PieRepository>();
@@ -22,10 +31,6 @@ builder.Services.AddControllersWithViews()
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-builder.Services.AddDbContext<CoreFundamentalsShopDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration["ConnectionStrings:CoreFundamentalsShopDbContextConnection"]);
-});
 
 builder.Services.AddServerSideBlazor();
 
@@ -33,6 +38,8 @@ var app = builder.Build();
 
 app.UseStaticFiles();
 app.UseSession();
+app.UseAuthentication();
+app.UseAuthorization();
 
 if (app.Environment.IsDevelopment())
 {

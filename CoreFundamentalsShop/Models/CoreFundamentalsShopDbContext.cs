@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoreFundamentalsShop.Models
 {
-    public class CoreFundamentalsShopDbContext : DbContext
+    public class CoreFundamentalsShopDbContext : IdentityDbContext
     {
         public CoreFundamentalsShopDbContext(DbContextOptions options) : base(options)
         {
